@@ -39,14 +39,17 @@ def _draw_line(image, line, with_attribute, with_linetype):
     points = interp_arc(points)
     if points is None:
         return
-    
+
     if with_attribute and len(set(line['attributes']) - set([0])):
+        # 当lane属于中心线时，找到中心线绑定的traffic_elements类型，减去默认的0，得到一条中心线和多少个有效的traffic_elements绑定
+        # 用colors来描述这种绑定关系
         colors = [COLOR_DICT[a] for a in set(line['attributes']) - set([0])]
     elif with_linetype and line['linetype']:
         colors = [COLOR_DICT[line['linetype']]]
     else:
         colors = [COLOR_DEFAULT]
-    
+
+    # 每条中心线，有多个绑定关系时，画一个粗的中心线，粗中心由多条细中心线组成，多个颜色代表中心线和多个交通元素的绑定关系
     for idx, color in enumerate(colors):
         for i in range(len(points) - 1):
             x1 = int(points[i][0] + idx * THICKNESS * 1.5)
@@ -58,6 +61,7 @@ def _draw_line(image, line, with_attribute, with_linetype):
 
 def _draw_lane_segment(image, lane_segment, with_attribute, with_linetype, with_centerline, with_laneline):
     if with_centerline:
+        # centerline的属性: 和交通元素进行绑定
         _draw_line(image, {'points': lane_segment['centerline'], 'attributes': lane_segment['attributes']}, with_attribute, False)
         _draw_vertex(image, {'points': lane_segment['centerline']})
     if with_laneline:

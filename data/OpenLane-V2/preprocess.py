@@ -24,9 +24,10 @@ from openlanev2.centerline.io import io
 from openlanev2.centerline.preprocessing import collect
 
 
-with_sd_map = False # TODO: include SD Maps as sensor inputs or not
+with_sd_map = True # TODO: include SD Maps as sensor inputs or not
 
-root_path = './OpenLane-V2'
+#root_path = './OpenLane-V2'
+root_path = '/home/test/data/OpenLane-V2'
 for file in io.os_listdir(root_path):
     if file.endswith('json'):
         subset = file.split('.')[0]

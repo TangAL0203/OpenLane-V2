@@ -27,9 +27,9 @@ THICKNESS = 4
 
 COLOR_DEFAULT = (0, 0, 255)
 COLOR_DICT = {
-    0:  COLOR_DEFAULT,
-    1:  (255, 0, 0),
-    2:  (0, 255, 0),
+    0:  COLOR_DEFAULT,  # 红色，none
+    1:  (255, 0, 0),    # 蓝色，实线，pedestrian_crossing
+    2:  (0, 255, 0),    # 绿色，虚线，road_boundary
     3:  (255, 255, 0),
     4:  (255, 0, 255),
     5:  (0, 128, 128),

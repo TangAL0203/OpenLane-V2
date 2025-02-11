@@ -135,6 +135,8 @@ dmypy.json
 .python_history
 
 data/OpenLane-V2/*
+!data/OpenLane-V2/vis_lane.py
+!data/OpenLane-V2/vis_lane.sh
 !data/OpenLane-V2/data_dict_sample.json
 !data/OpenLane-V2/data_dict_example.json
 !data/OpenLane-V2/openlanev2.md5
@@ -146,3 +148,5 @@ RoadData/gt_results.json
 RoadDataTool/vis
 RoadDataTool/gt_result.json
 RoadDataTool/pred_case1_no_turbulence.json
+
+.idea/

@@ -40,6 +40,7 @@ def draw_sd_map(sd_map):
     if sd_map is not None:
         for i, category in enumerate(sd_map):
             for road in sd_map[category]:
+                # 'road', 'cross_walk', 'side_walk'
                 road = (BEV_SCALE * (-road[:, :2] + np.array([BEV_RANGE[1] , BEV_RANGE[3]]))).astype(int)
                 cv2.polylines(image, [road[:, [1,0]]], False, COLOR_DICT[i], THICKNESS * 10)
     return image

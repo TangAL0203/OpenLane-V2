@@ -54,14 +54,16 @@ def _draw_line(image, line, intrinsic, extrinsic, with_attribute, with_linetype)
             except Exception:
                 return
 
-def _draw_lane_segment(image, lane_segment, intrinsic, extrinsic, with_attribute, with_linetype, with_centerline, with_laneline):
+def _draw_lane_segment(image, lane_segment, intrinsic, extrinsic, with_attribute, with_linetype, with_centerline, with_laneline, show_segment_line):
     if with_centerline:
         _draw_line(image, {'points': lane_segment['centerline'], 'attributes': lane_segment['attributes']}, intrinsic, extrinsic, with_attribute, False)
     if with_laneline:
         _draw_line(image, {'points': lane_segment['left_laneline'], 'linetype': lane_segment['left_laneline_type']}, intrinsic, extrinsic, False, with_linetype)
         _draw_line(image, {'points': lane_segment['right_laneline'], 'linetype': lane_segment['right_laneline_type']}, intrinsic, extrinsic, False, with_linetype)
-        _draw_line(image, {'points': np.array([lane_segment['left_laneline'][0], lane_segment['right_laneline'][0]])}, intrinsic, extrinsic, False, False)
-        _draw_line(image, {'points': np.array([lane_segment['left_laneline'][-1], lane_segment['right_laneline'][-1]])}, intrinsic, extrinsic, False, False)
+        if show_segment_line:
+            # 在left_laneline和right_laneline之间，画一条线段，做分段表示
+            _draw_line(image, {'points': np.array([lane_segment['left_laneline'][0], lane_segment['right_laneline'][0]])}, intrinsic, extrinsic, False, False)
+            _draw_line(image, {'points': np.array([lane_segment['left_laneline'][-1], lane_segment['right_laneline'][-1]])}, intrinsic, extrinsic, False, False)
 
 def _draw_area(image, area, intrinsic, extrinsic, with_linetype):
     for start, end in zip(area['points'][:-1], area['points'][1:]):
@@ -73,9 +75,10 @@ def _draw_area(image, area, intrinsic, extrinsic, with_linetype):
     for point in points:
         cv2.circle(image, (int(point[0]), int(point[1])), int(THICKNESS * 1.5), COLOR_DICT[area['category']], -1)
 
-def draw_annotation_pv(camera, image, annotation, intrinsic, extrinsic, with_attribute, with_linetype, with_topology, with_centerline, with_laneline, with_area):
+def draw_annotation_pv(camera, image, annotation, intrinsic, extrinsic, with_attribute, with_linetype, with_topology, with_centerline, with_laneline, with_area,
+                       show_segment_line=True):
     for lane_segment in annotation['lane_segment']:
-        _draw_lane_segment(image, lane_segment, intrinsic, extrinsic, with_attribute, with_linetype, with_centerline, with_laneline)
+        _draw_lane_segment(image, lane_segment, intrinsic, extrinsic, with_attribute, with_linetype, with_centerline, with_laneline, show_segment_line=show_segment_line)
     if with_area:
         for area in annotation['area']:
             _draw_area(image, area, intrinsic, extrinsic, with_linetype)
