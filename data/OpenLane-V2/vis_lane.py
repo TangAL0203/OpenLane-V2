@@ -228,7 +228,7 @@ def main(args):
         image_list = [frame.get_rgb_image(camera)[:,:,::-1] for camera in camera_list]
         for i in range(1, len(image_list)):
             image_list[i] = cv2.resize(image_list[i], (image_list[0].shape[1], image_list[0].shape[0]))
-        image1 = np.hstack(image_list[:3])
+        image1 = np.hstack([image_list[1], image_list[0], image_list[2]])
         image2 = cv2.resize(np.hstack(image_list[3:5]), (image1.shape[1], image1.shape[0]))
         image3 = cv2.resize(np.hstack(image_list[5:]), (image1.shape[1], image1.shape[0]))
         image_pv = np.hstack([image_pv_centerline, image_pv_laneline, image_pv_area])
